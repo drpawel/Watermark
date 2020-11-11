@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GUI extends JFrame {
+    private JFileChooser fileChooser;
 
-//GUI constructor
+    //GUI constructor
     public GUI(){
         this.getContentPane().add(prepareMainPanel());
         setFrame();
