@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class GUI extends JFrame {
 
+//GUI constructor
     public GUI(){
         this.getContentPane().add(prepareMainPanel());
         setFrame();
