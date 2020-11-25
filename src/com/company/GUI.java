@@ -1,10 +1,15 @@
 package com.company;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class GUI extends JFrame {
-    private JFileChooser fileChooser;
+    private BufferedImage image;
 
     //GUI constructor
     public GUI(){
@@ -31,7 +36,19 @@ public class GUI extends JFrame {
     private JButton prepareOpenButton(){
         JButton openButton = new JButton("Open a File");
         openButton.addActionListener(e->{
-            System.out.println("OPEN");
+            JFileChooser fileChooser = new JFileChooser("D:\\IdeaProjects\\Watermark\\resources");
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG images", "png");
+            fileChooser.addChoosableFileFilter(filter);
+            if(fileChooser.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
+                File file = fileChooser.getSelectedFile();
+                try {
+                    image = ImageIO.read(file);
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+
+            }
         });
         return openButton;
     }
@@ -59,7 +76,7 @@ public class GUI extends JFrame {
         });
         return imageWatermarkButton;
     }
-
+    
     private void setFrame(){
         setTitle("Watermark Generator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
