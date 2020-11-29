@@ -38,14 +38,14 @@ public class GUI extends JFrame {
         openButton.addActionListener(e->{
             JFileChooser fileChooser = new JFileChooser("D:\\IdeaProjects\\Watermark\\resources");
             fileChooser.setAcceptAllFileFilterUsed(false);
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG images", "png");
-            fileChooser.addChoosableFileFilter(filter);
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG images", "png"));
+
             if(fileChooser.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
                 File file = fileChooser.getSelectedFile();
                 try {
                     image = ImageIO.read(file);
                 } catch (IOException exception) {
-                    exception.printStackTrace();
+                    com.company.DialogLibrary.showNoFileDialog();
                 }
 
             }
@@ -64,7 +64,11 @@ public class GUI extends JFrame {
     private JButton prepareTextWatermarkButton(){
         JButton textWatermarkButton = new JButton("Text Watermark");
         textWatermarkButton.addActionListener(e -> {
-            System.out.println("TEXT");
+            try{
+                new TextWatermark(image);
+            }catch (Exception exception){
+                com.company.DialogLibrary.showNoImageDialog();
+            }
         });
         return textWatermarkButton;
     }
