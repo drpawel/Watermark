@@ -39,7 +39,7 @@ public class AppController implements ActionListener {
     }
 
     private void openFile(){
-        JFileChooser fileChooser = new JFileChooser("D:\\IdeaProjects\\Watermark\\resources");
+        JFileChooser fileChooser = new JFileChooser(".\\resources");
         fileChooser.setAcceptAllFileFilterUsed(false);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG images", "png"));
 
@@ -57,8 +57,8 @@ public class AppController implements ActionListener {
 
     private void saveFile(){
         try {
-            ImageIO.write(processedImage, "png", new File("D:\\IdeaProjects\\Watermark\\resources\\textWatermark_"
-                    + counter++ +"_"+ new SimpleDateFormat("yyyy-MM-dd-HH-mm'.png'").format(new Date())));
+            ImageIO.write(processedImage, "png", new File(".\\resources\\textWatermark_" + counter++
+                    +"_"+ new SimpleDateFormat("yyyy-MM-dd-HH-mm'.png'").format(new Date())));
         } catch (Exception exception) {
             com.company.DialogLibrary.showNoProcessedImageDialog();
         }

@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class GUI extends JFrame {
+    private JPanel mainPanel;
     private BufferedImage image;
     private JButton openButton,saveButton,textWatermarkButton,imageWatermarkButton;
-    private JPanel mainPanel;
 
     public GUI(){
         this.getContentPane().add(prepareMainPanel());
