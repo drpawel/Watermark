@@ -1,17 +1,14 @@
 package com.company;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class GUI extends JFrame {
     private BufferedImage image;
+    private JButton openButton,saveButton,textWatermarkButton,imageWatermarkButton;
 
-    //GUI constructor
     public GUI(){
         this.getContentPane().add(prepareMainPanel());
         setFrame();
@@ -26,59 +23,32 @@ public class GUI extends JFrame {
 
     private JPanel prepareSelectionPanel(){
         JPanel selectionPanel = new JPanel();
-        selectionPanel.add(prepareOpenButton());
-        selectionPanel.add(prepareSaveButton());
-        selectionPanel.add(prepareTextWatermarkButton());
-        selectionPanel.add(prepareImageWatermarkButton());
+
+        openButton = new JButton("Open a File");
+        saveButton = new JButton("Save a File");
+        textWatermarkButton = new JButton("Text Watermark");
+        imageWatermarkButton = new JButton("Image Watermark");
+
+        selectionPanel.add(openButton);
+        selectionPanel.add(saveButton);
+        selectionPanel.add(textWatermarkButton);
+        selectionPanel.add(imageWatermarkButton);
         return selectionPanel;
     }
 
-    private JButton prepareOpenButton(){
-        JButton openButton = new JButton("Open a File");
-        openButton.addActionListener(e->{
-            JFileChooser fileChooser = new JFileChooser("D:\\IdeaProjects\\Watermark\\resources");
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("PNG images", "png"));
-
-            if(fileChooser.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
-                File file = fileChooser.getSelectedFile();
-                try {
-                    image = ImageIO.read(file);
-                } catch (IOException exception) {
-                    com.company.DialogLibrary.showNoFileDialog();
-                }
-
-            }
-        });
-        return openButton;
+    protected void setAppController(ActionListener actionListener){
+        this.openButton.addActionListener(actionListener);
+        this.saveButton.addActionListener(actionListener);
+        this.textWatermarkButton.addActionListener(actionListener);
+        this.imageWatermarkButton.addActionListener(actionListener);
     }
 
-    private JButton prepareSaveButton(){
-        JButton saveButton = new JButton("Save a File");
-        saveButton.addActionListener(e -> {
-            System.out.println("SAVE");
-        });
-        return saveButton;
+    protected void setImage(BufferedImage tmp_image){
+        this.image = tmp_image;
     }
 
-    private JButton prepareTextWatermarkButton(){
-        JButton textWatermarkButton = new JButton("Text Watermark");
-        textWatermarkButton.addActionListener(e -> {
-            try{
-                new TextWatermark(image);
-            }catch (Exception exception){
-                com.company.DialogLibrary.showNoImageDialog();
-            }
-        });
-        return textWatermarkButton;
-    }
-
-    private JButton prepareImageWatermarkButton(){
-        JButton imageWatermarkButton = new JButton("Image Watermark");
-        imageWatermarkButton.addActionListener(e -> {
-            System.out.println("IMAGE");
-        });
-        return imageWatermarkButton;
+    protected BufferedImage getImage(){
+        return this.image;
     }
     
     private void setFrame(){
