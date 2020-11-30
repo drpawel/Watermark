@@ -17,4 +17,11 @@ public class DialogLibrary {
                 "Warning",
                 JOptionPane.ERROR_MESSAGE);
     }
+
+    public static void showNoProcessedImageDialog() {
+        JOptionPane.showMessageDialog(null,
+                "There is no processed image!",
+                "Warning",
+                JOptionPane.ERROR_MESSAGE);
+    }
 }

@@ -1,14 +1,9 @@
 package com.company;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class TextWatermark extends JFrame {
     BufferedImage image;
@@ -30,7 +25,7 @@ public class TextWatermark extends JFrame {
         return textWatermarkPanel;
     }
 
-    private void createTextWatermark(){
+    protected void createTextWatermark(){
         Graphics2D graphics2D = (Graphics2D) image.getGraphics();
 
         AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
@@ -44,13 +39,11 @@ public class TextWatermark extends JFrame {
         int centerY = image.getHeight() / 2;
 
         graphics2D.drawString("XDDD", centerX, centerY);
-        try {
-            ImageIO.write(image, "png", new File("D:\\IdeaProjects\\Watermark\\resources\\textWatermark_"
-                    + new SimpleDateFormat("yyyy-MM-dd-HH-mm'.png'").format(new Date())));
-        } catch (IOException exception) {
-            com.company.DialogLibrary.showNoImageDialog();
-        }
         graphics2D.dispose();
+    }
+
+    public BufferedImage getImage() {
+        return image;
     }
 
     private void setFrame(){

@@ -8,9 +8,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AppController implements ActionListener {
-    private GUI gui = null;
+    private final GUI gui;
+    private BufferedImage processedImage = null;
+    private int counter = 0;
 
     public AppController(GUI gui) {
         this.gui = gui;
@@ -18,14 +22,19 @@ public class AppController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("Open a File")){
-            openFile();
-        }else if(e.getActionCommand().equals("Save a File")){
-            System.out.println("SAVE");
-        }else if(e.getActionCommand().equals("Text Watermark")){
-            addWatermark(gui.getImage());
-        }else if(e.getActionCommand().equals("Image Watermark")){
-            System.out.println("IMAGE");
+        switch (e.getActionCommand()) {
+            case "Open a File":
+                openFile();
+                break;
+            case "Save a File":
+                saveFile();
+                break;
+            case "Text Watermark":
+                addWatermark(gui.getImage());
+                break;
+            case "Image Watermark":
+                System.out.println("IMAGE");
+                break;
         }
     }
 
@@ -47,11 +56,20 @@ public class AppController implements ActionListener {
     }
 
     private void saveFile(){
+        try {
+            ImageIO.write(processedImage, "png", new File("D:\\IdeaProjects\\Watermark\\resources\\textWatermark_"
+                    + counter++ +"_"+ new SimpleDateFormat("yyyy-MM-dd-HH-mm'.png'").format(new Date())));
+        } catch (Exception exception) {
+            com.company.DialogLibrary.showNoProcessedImageDialog();
+        }
     }
 
-    private void addWatermark(BufferedImage image){
+    private void addWatermark(BufferedImage sourceImage){
         try{
-            new TextWatermark(image);
+            TextWatermark textWatermark = new TextWatermark(sourceImage);
+            processedImage = textWatermark.getImage();
+            this.gui.setImage(processedImage);
+            this.gui.refreshFrame();
         }catch (Exception exception){
             com.company.DialogLibrary.showNoImageDialog();
         }
