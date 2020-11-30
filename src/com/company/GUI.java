@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class GUI extends JFrame {
-    private BufferedImage image;
+    private BufferedImage image = null;
     private JButton openButton,saveButton,textWatermarkButton,imageWatermarkButton;
 
     public GUI(){
