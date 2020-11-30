@@ -6,8 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 public class GUI extends JFrame {
-    private BufferedImage image = null;
+    private BufferedImage image;
     private JButton openButton,saveButton,textWatermarkButton,imageWatermarkButton;
+    private JPanel mainPanel;
 
     public GUI(){
         this.getContentPane().add(prepareMainPanel());
@@ -15,7 +16,7 @@ public class GUI extends JFrame {
     }
 
     private JPanel prepareMainPanel(){
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
         mainPanel.setPreferredSize(new Dimension(500,500));
         mainPanel.add(prepareSelectionPanel(),BorderLayout.PAGE_START);
         return mainPanel;
@@ -43,14 +44,19 @@ public class GUI extends JFrame {
         this.imageWatermarkButton.addActionListener(actionListener);
     }
 
-    protected void setImage(BufferedImage tmp_image){
-        this.image = tmp_image;
+    protected void setImage(BufferedImage image){
+        this.image = image;
     }
 
     protected BufferedImage getImage(){
         return this.image;
     }
-    
+
+    protected void refreshFrame(){
+        mainPanel.add(new JLabel(new ImageIcon(this.image)),BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(this);
+    }
+
     private void setFrame(){
         setTitle("Watermark Generator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

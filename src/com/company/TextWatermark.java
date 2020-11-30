@@ -21,13 +21,12 @@ public class TextWatermark extends JFrame {
         this.getContentPane().add(prepareTextWatermarkPanel());
         createTextWatermark();
         setFrame();
-
     }
 
     private JPanel prepareTextWatermarkPanel(){
         JPanel textWatermarkPanel = new JPanel(new BorderLayout());
         textWatermarkPanel.setPreferredSize(new Dimension(image.getWidth()*2,image.getHeight()*2));
-        textWatermarkPanel.add(new JLabel(new ImageIcon(image)),BorderLayout.CENTER);
+        //textWatermarkPanel.add(new JLabel(new ImageIcon(image)),BorderLayout.CENTER);
         return textWatermarkPanel;
     }
 
@@ -46,7 +45,8 @@ public class TextWatermark extends JFrame {
 
         graphics2D.drawString("XDDD", centerX, centerY);
         try {
-            ImageIO.write(image, "png", new File("D:\\IdeaProjects\\Watermark\\resources\\textWatermark_" + new SimpleDateFormat("yyyy-MM-dd-HH-mm'.png'").format(new Date())));
+            ImageIO.write(image, "png", new File("D:\\IdeaProjects\\Watermark\\resources\\textWatermark_"
+                    + new SimpleDateFormat("yyyy-MM-dd-HH-mm'.png'").format(new Date())));
         } catch (IOException exception) {
             com.company.DialogLibrary.showNoImageDialog();
         }

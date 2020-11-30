@@ -38,6 +38,7 @@ public class AppController implements ActionListener {
             File file = fileChooser.getSelectedFile();
             try {
                 this.gui.setImage(ImageIO.read(file));
+                this.gui.refreshFrame();
             } catch (IOException exception) {
                 com.company.DialogLibrary.showNoFileDialog();
             }
