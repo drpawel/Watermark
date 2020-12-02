@@ -8,23 +8,21 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageWatermark extends JFrame {
-    BufferedImage sourceImage;
+public class ImageWatermark extends AbstractWatermark {
     BufferedImage watermarkImage;
 
-
     public ImageWatermark(BufferedImage sourceImage){
-        this.sourceImage = sourceImage;
+        super(sourceImage);
         getWatermarkImage();
         this.getContentPane().add(prepareImageWatermarkPanel());
         createImageWatermark();
-        setFrame();
+        setFrame("Image Watermark");
     }
 
     private JPanel prepareImageWatermarkPanel(){
         JPanel imageWatermarkPanel = new JPanel(new BorderLayout());
         imageWatermarkPanel.setPreferredSize(new Dimension(300,300));
-        //imageWatermarkPanel.add(new JLabel(new ImageIcon(sourceImage)),BorderLayout.CENTER);
+
         return imageWatermarkPanel;
     }
 
@@ -58,16 +56,5 @@ public class ImageWatermark extends JFrame {
         }catch (Exception exception){
             com.company.DialogLibrary.showNoImageDialog();
         }
-    }
-
-    public BufferedImage getImage() {
-        return sourceImage;
-    }
-
-    private void setFrame(){
-        setTitle("Image Watermark");
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 }
