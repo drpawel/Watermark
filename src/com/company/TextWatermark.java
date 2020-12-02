@@ -20,26 +20,30 @@ public class TextWatermark extends JFrame {
 
     private JPanel prepareTextWatermarkPanel(){
         JPanel textWatermarkPanel = new JPanel(new BorderLayout());
-        textWatermarkPanel.setPreferredSize(new Dimension(image.getWidth()*2,image.getHeight()*2));
-        //textWatermarkPanel.add(new JLabel(new ImageIcon(image)),BorderLayout.CENTER);
+        textWatermarkPanel.setPreferredSize(new Dimension(300,300));
+        //textWatermarkPanel.add(new JLabel(new ImageIcon(sourceImage)),BorderLayout.CENTER);
         return textWatermarkPanel;
     }
 
     protected void createTextWatermark(){
-        Graphics2D graphics2D = (Graphics2D) image.getGraphics();
+        try{
+            Graphics2D graphics2D = (Graphics2D) image.getGraphics();
 
-        AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
-        graphics2D.setComposite(alphaComposite);
-        graphics2D.setColor(color);
-        graphics2D.setFont(new Font(font, Font.BOLD, 32));
-        FontMetrics fontMetrics = graphics2D.getFontMetrics();
-        Rectangle2D rectangle2D = fontMetrics.getStringBounds(text, graphics2D);
+            AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
+            graphics2D.setComposite(alphaComposite);
+            graphics2D.setColor(color);
+            graphics2D.setFont(new Font(font, Font.BOLD, 32));
+            FontMetrics fontMetrics = graphics2D.getFontMetrics();
+            Rectangle2D rectangle2D = fontMetrics.getStringBounds(text, graphics2D);
 
-        int centerX = (image.getWidth() - (int) rectangle2D.getWidth()) / 2;
-        int centerY = image.getHeight() / 2;
+            int centerX = (image.getWidth() - (int) rectangle2D.getWidth()) / 2;
+            int centerY = image.getHeight() / 2;
 
-        graphics2D.drawString("XDDD", centerX, centerY);
-        graphics2D.dispose();
+            graphics2D.drawString("XDDD", centerX, centerY);
+            graphics2D.dispose();
+        }catch (Exception exception){
+            com.company.DialogLibrary.showNoImageDialog();
+        }
     }
 
     public BufferedImage getImage() {

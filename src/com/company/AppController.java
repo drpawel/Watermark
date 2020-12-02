@@ -30,10 +30,10 @@ public class AppController implements ActionListener {
                 saveFile();
                 break;
             case "Text Watermark":
-                addWatermark(gui.getImage());
+                addTextWatermark(gui.getImage());
                 break;
             case "Image Watermark":
-                System.out.println("IMAGE");
+                addImageWatermark(gui.getImage());
                 break;
         }
     }
@@ -64,10 +64,21 @@ public class AppController implements ActionListener {
         }
     }
 
-    private void addWatermark(BufferedImage sourceImage){
+    private void addTextWatermark(BufferedImage sourceImage){
         try{
             TextWatermark textWatermark = new TextWatermark(sourceImage);
             processedImage = textWatermark.getImage();
+            this.gui.setImage(processedImage);
+            this.gui.refreshFrame();
+        }catch (Exception exception){
+            com.company.DialogLibrary.showNoImageDialog();
+        }
+    }
+
+    private void addImageWatermark(BufferedImage sourceImage){
+        try{
+            ImageWatermark imageWatermark = new ImageWatermark(sourceImage);
+            processedImage = imageWatermark.getImage();
             this.gui.setImage(processedImage);
             this.gui.refreshFrame();
         }catch (Exception exception){
