@@ -6,23 +6,36 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class TextWatermark extends JFrame {
-    BufferedImage image;
-    Color color = Color.BLUE;
-    String font = "Arial";
-    String text = "XDDDD";
+    private BufferedImage image;
+    private JTextField textField = new JTextField(20);
+    private Color color = Color.BLUE;
+    private String font = "Arial";
+    private String text = "PJAVA";
 
     public TextWatermark(BufferedImage sourceImage){
         this.image = sourceImage;
-        this.getContentPane().add(prepareTextWatermarkPanel());
+        if(sourceImage!=null){
+            this.getContentPane().add(prepareMainPanel());
+            setFrame();
+        }
         createTextWatermark();
-        setFrame();
     }
 
-    private JPanel prepareTextWatermarkPanel(){
-        JPanel textWatermarkPanel = new JPanel(new BorderLayout());
-        textWatermarkPanel.setPreferredSize(new Dimension(300,300));
-        //textWatermarkPanel.add(new JLabel(new ImageIcon(sourceImage)),BorderLayout.CENTER);
-        return textWatermarkPanel;
+    private JPanel prepareMainPanel(){
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(300,100));
+        mainPanel.add(textField,BorderLayout.CENTER);
+        mainPanel.add(prepareSubmitButton(),BorderLayout.PAGE_END);
+        return mainPanel;
+    }
+
+    private JButton prepareSubmitButton(){
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(e -> {
+            this.text = this.textField.getText();
+            this.dispose();
+        });
+        return submitButton;
     }
 
     protected void createTextWatermark(){
@@ -39,7 +52,7 @@ public class TextWatermark extends JFrame {
             int centerX = (image.getWidth() - (int) rectangle2D.getWidth()) / 2;
             int centerY = image.getHeight() / 2;
 
-            graphics2D.drawString("XDDD", centerX, centerY);
+            graphics2D.drawString(text, centerX, centerY);
             graphics2D.dispose();
         }catch (Exception exception){
             com.company.DialogLibrary.showNoImageDialog();
@@ -56,4 +69,5 @@ public class TextWatermark extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
 }

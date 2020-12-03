@@ -8,24 +8,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageWatermark extends JFrame {
+public class ImageWatermark{
     BufferedImage sourceImage;
     BufferedImage watermarkImage;
 
 
     public ImageWatermark(BufferedImage sourceImage){
         this.sourceImage = sourceImage;
-        getWatermarkImage();
-        this.getContentPane().add(prepareImageWatermarkPanel());
         createImageWatermark();
-        setFrame();
-    }
-
-    private JPanel prepareImageWatermarkPanel(){
-        JPanel imageWatermarkPanel = new JPanel(new BorderLayout());
-        imageWatermarkPanel.setPreferredSize(new Dimension(300,300));
-        //imageWatermarkPanel.add(new JLabel(new ImageIcon(sourceImage)),BorderLayout.CENTER);
-        return imageWatermarkPanel;
     }
 
     private void getWatermarkImage(){
@@ -46,6 +36,7 @@ public class ImageWatermark extends JFrame {
 
     protected void createImageWatermark(){
         try{
+            getWatermarkImage();
             Graphics2D g2d = (Graphics2D) sourceImage.getGraphics();
             AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
             g2d.setComposite(alphaChannel);
@@ -64,10 +55,4 @@ public class ImageWatermark extends JFrame {
         return sourceImage;
     }
 
-    private void setFrame(){
-        setTitle("Image Watermark");
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
 }

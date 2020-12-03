@@ -57,7 +57,7 @@ public class AppController implements ActionListener {
 
     private void saveFile(){
         try {
-            ImageIO.write(processedImage, "png", new File(".\\resources\\textWatermark_" + counter++
+            ImageIO.write(processedImage, "png", new File(".\\resources\\Watermark_" + counter++
                     +"_"+ new SimpleDateFormat("yyyy-MM-dd-HH-mm'.png'").format(new Date())));
         } catch (Exception exception) {
             com.company.DialogLibrary.showNoProcessedImageDialog();
@@ -65,24 +65,20 @@ public class AppController implements ActionListener {
     }
 
     private void addTextWatermark(BufferedImage sourceImage){
-        try{
-            TextWatermark textWatermark = new TextWatermark(sourceImage);
-            processedImage = textWatermark.getImage();
+        TextWatermark textWatermark = new TextWatermark(sourceImage);
+        processedImage = textWatermark.getImage();
+        if(processedImage!=null){
             this.gui.setImage(processedImage);
             this.gui.refreshFrame();
-        }catch (Exception exception){
-            com.company.DialogLibrary.showNoImageDialog();
         }
     }
 
     private void addImageWatermark(BufferedImage sourceImage){
-        try{
-            ImageWatermark imageWatermark = new ImageWatermark(sourceImage);
-            processedImage = imageWatermark.getImage();
+        ImageWatermark imageWatermark = new ImageWatermark(sourceImage);
+        processedImage = imageWatermark.getImage();
+        if(processedImage!=null){
             this.gui.setImage(processedImage);
             this.gui.refreshFrame();
-        }catch (Exception exception){
-            com.company.DialogLibrary.showNoImageDialog();
         }
     }
 }
