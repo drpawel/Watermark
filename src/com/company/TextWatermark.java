@@ -8,7 +8,8 @@ import java.awt.image.BufferedImage;
 public class TextWatermark extends JFrame {
     private BufferedImage image;
     private JTextField textField = new JTextField(20);
-    private Color color = Color.BLUE;
+    private JColorChooser colorChooser = new JColorChooser();
+    private Color color = Color.white;
     private String font = "Arial";
     private String text = "PJAVA";
 
@@ -23,7 +24,8 @@ public class TextWatermark extends JFrame {
 
     private JPanel prepareMainPanel(){
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setPreferredSize(new Dimension(300,100));
+        mainPanel.setPreferredSize(new Dimension(500,400));
+        mainPanel.add(colorChooser,BorderLayout.PAGE_START);
         mainPanel.add(textField,BorderLayout.CENTER);
         mainPanel.add(prepareSubmitButton(),BorderLayout.PAGE_END);
         return mainPanel;
@@ -38,7 +40,7 @@ public class TextWatermark extends JFrame {
         return submitButton;
     }
 
-    protected void createTextWatermark(){
+    private void createTextWatermark(){
         try{
             Graphics2D graphics2D = (Graphics2D) image.getGraphics();
 

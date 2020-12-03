@@ -9,6 +9,7 @@ public class GUI extends JFrame {
     private JPanel mainPanel;
     private BufferedImage image;
     private JButton openButton,saveButton,textWatermarkButton,imageWatermarkButton;
+    private JLabel imageLabel;
 
     public GUI(){
         this.getContentPane().add(prepareMainPanel());
@@ -17,7 +18,7 @@ public class GUI extends JFrame {
 
     private JPanel prepareMainPanel(){
         mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setPreferredSize(new Dimension(500,500));
+        mainPanel.setPreferredSize(new Dimension(600,600));
         mainPanel.add(prepareSelectionPanel(),BorderLayout.PAGE_START);
         return mainPanel;
     }
@@ -53,7 +54,11 @@ public class GUI extends JFrame {
     }
 
     protected void refreshFrame(){
-        mainPanel.add(new JLabel(new ImageIcon(this.image)),BorderLayout.CENTER);
+        if(imageLabel!=null){
+            mainPanel.remove(imageLabel);
+        }
+        imageLabel = new JLabel(new ImageIcon(this.image));
+        mainPanel.add(imageLabel,BorderLayout.CENTER);
         SwingUtilities.updateComponentTreeUI(this);
     }
 
