@@ -3,13 +3,11 @@ package com.company;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 public class GUI extends JFrame {
     private JPanel mainPanel;
-    private BufferedImage image;
     private JButton openButton,saveButton,textWatermarkButton,imageWatermarkButton;
-    private JLabel imageLabel;
+    private ImagePanel imagePanel;
 
     public GUI(){
         this.getContentPane().add(prepareMainPanel());
@@ -20,6 +18,9 @@ public class GUI extends JFrame {
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setPreferredSize(new Dimension(600,600));
         mainPanel.add(prepareSelectionPanel(),BorderLayout.PAGE_START);
+
+        this.imagePanel = new ImagePanel();
+        mainPanel.add(new JScrollPane(this.imagePanel),BorderLayout.CENTER);
         return mainPanel;
     }
 
@@ -38,28 +39,15 @@ public class GUI extends JFrame {
         return selectionPanel;
     }
 
-    protected void setAppController(ActionListener actionListener){
+    public void setAppController(ActionListener actionListener){
         this.openButton.addActionListener(actionListener);
         this.saveButton.addActionListener(actionListener);
         this.textWatermarkButton.addActionListener(actionListener);
         this.imageWatermarkButton.addActionListener(actionListener);
     }
 
-    protected void setImage(BufferedImage image){
-        this.image = image;
-    }
-
-    protected BufferedImage getImage(){
-        return this.image;
-    }
-
-    protected void refreshFrame(){
-        if(imageLabel!=null){
-            mainPanel.remove(imageLabel);
-        }
-        imageLabel = new JLabel(new ImageIcon(this.image));
-        mainPanel.add(imageLabel,BorderLayout.CENTER);
-        SwingUtilities.updateComponentTreeUI(this);
+    public ImagePanel getImagePanel() {
+        return imagePanel;
     }
 
     private void setFrame(){

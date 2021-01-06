@@ -13,14 +13,7 @@ public class DialogLibrary {
 
     public static void showNoImageDialog() {
         JOptionPane.showMessageDialog(null,
-                "There is no sourceImage!",
-                "Warning",
-                JOptionPane.ERROR_MESSAGE);
-    }
-
-    public static void showNoProcessedImageDialog() {
-        JOptionPane.showMessageDialog(null,
-                "There is no processed sourceImage!",
+                "There is no image!",
                 "Warning",
                 JOptionPane.ERROR_MESSAGE);
     }

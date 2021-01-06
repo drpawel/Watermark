@@ -7,19 +7,22 @@ import java.awt.image.BufferedImage;
 
 public class TextWatermark extends JFrame {
     private BufferedImage image;
-    private JTextField textField = new JTextField(20);
+    private ImagePanel imagePanel;
+    private JTextField textField = new JTextField(10);
     private JColorChooser colorChooser = new JColorChooser();
     private Color color = Color.white;
     private String font = "Arial";
-    private String text = "PJAVA";
+    private String text = "DEFAULT";
 
-    public TextWatermark(BufferedImage sourceImage){
-        this.image = sourceImage;
-        if(sourceImage!=null){
+    public TextWatermark(ImagePanel imagePanel){
+        this.imagePanel = imagePanel;
+        this.image = imagePanel.getImage();
+        if(imagePanel.getImage()!=null){
             this.getContentPane().add(prepareMainPanel());
             setFrame();
+        }else{
+            com.company.DialogLibrary.showNoImageDialog();
         }
-        createTextWatermark();
     }
 
     private JPanel prepareMainPanel(){
@@ -34,22 +37,30 @@ public class TextWatermark extends JFrame {
     private JButton prepareSubmitButton(){
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
-            this.text = this.textField.getText();
+            if(this.textField.getText()!=null){
+                this.text = this.textField.getText();
+            }
+            this.color = colorChooser.getColor();
+
+            createTextWatermark();
+            this.imagePanel.setImage(image);
             this.dispose();
         });
         return submitButton;
     }
 
-    private void createTextWatermark(){
+    public void createTextWatermark(){
         try{
             Graphics2D graphics2D = (Graphics2D) image.getGraphics();
 
             AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
             graphics2D.setComposite(alphaComposite);
+            graphics2D.setRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON));
             graphics2D.setColor(color);
             graphics2D.setFont(new Font(font, Font.BOLD, 32));
             FontMetrics fontMetrics = graphics2D.getFontMetrics();
             Rectangle2D rectangle2D = fontMetrics.getStringBounds(text, graphics2D);
+
 
             int centerX = (image.getWidth() - (int) rectangle2D.getWidth()) / 2;
             int centerY = image.getHeight() / 2;
@@ -59,10 +70,6 @@ public class TextWatermark extends JFrame {
         }catch (Exception exception){
             com.company.DialogLibrary.showNoImageDialog();
         }
-    }
-
-    public BufferedImage getImage() {
-        return image;
     }
 
     private void setFrame(){

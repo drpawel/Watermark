@@ -5,7 +5,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -13,11 +12,12 @@ import java.util.Date;
 
 public class AppController implements ActionListener {
     private final GUI gui;
-    private BufferedImage processedImage = null;
+    private ImagePanel imagePanel;
     private int counter = 0;
 
     public AppController(GUI gui) {
         this.gui = gui;
+        this.imagePanel = this.gui.getImagePanel();
     }
 
     @Override
@@ -30,10 +30,10 @@ public class AppController implements ActionListener {
                 saveFile();
                 break;
             case "Text Watermark":
-                addTextWatermark(gui.getImage());
+                addTextWatermark(this.imagePanel);
                 break;
             case "Image Watermark":
-                addImageWatermark(gui.getImage());
+                addImageWatermark(this.imagePanel);
                 break;
         }
     }
@@ -46,8 +46,7 @@ public class AppController implements ActionListener {
         if(fileChooser.showOpenDialog(null)==JFileChooser.APPROVE_OPTION){
             File file = fileChooser.getSelectedFile();
             try {
-                this.gui.setImage(ImageIO.read(file));
-                this.gui.refreshFrame();
+                this.imagePanel.setImage(ImageIO.read(file));
             } catch (IOException exception) {
                 com.company.DialogLibrary.showNoFileDialog();
             }
@@ -57,28 +56,18 @@ public class AppController implements ActionListener {
 
     private void saveFile(){
         try {
-            ImageIO.write(processedImage, "png", new File(".\\resources\\Watermark_" + counter++
+            ImageIO.write(this.imagePanel.getImage(), "png", new File(".\\resources\\Watermark_" + counter++
                     +"_"+ new SimpleDateFormat("yyyy-MM-dd-HH-mm'.png'").format(new Date())));
         } catch (Exception exception) {
-            com.company.DialogLibrary.showNoProcessedImageDialog();
+            com.company.DialogLibrary.showNoImageDialog();
         }
     }
 
-    private void addTextWatermark(BufferedImage sourceImage){
-        TextWatermark textWatermark = new TextWatermark(sourceImage);
-        processedImage = textWatermark.getImage();
-        if(processedImage!=null){
-            this.gui.setImage(processedImage);
-            this.gui.refreshFrame();
-        }
+    private void addTextWatermark(ImagePanel panel){
+        new TextWatermark(panel);
     }
 
-    private void addImageWatermark(BufferedImage sourceImage){
-        ImageWatermark imageWatermark = new ImageWatermark(sourceImage);
-        processedImage = imageWatermark.getImage();
-        if(processedImage!=null){
-            this.gui.setImage(processedImage);
-            this.gui.refreshFrame();
-        }
+    private void addImageWatermark(ImagePanel panel){
+        new ImageWatermark(panel);
     }
 }

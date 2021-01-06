@@ -8,14 +8,22 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class ImageWatermark{
-    BufferedImage sourceImage;
-    BufferedImage watermarkImage;
+public class ImageWatermark extends JFrame{
+    private ImagePanel imagePanel;
+    private BufferedImage sourceImage;
+    private BufferedImage watermarkImage = null;
 
 
-    public ImageWatermark(BufferedImage sourceImage){
-        this.sourceImage = sourceImage;
+    public ImageWatermark(ImagePanel imagePanel){
+        this.imagePanel = imagePanel;
+        this.sourceImage = imagePanel.getImage();
         createImageWatermark();
+    }
+
+    private JPanel prepareMainPanel(){
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setPreferredSize(new Dimension(500,400));
+        return mainPanel;
     }
 
     private void getWatermarkImage(){
@@ -37,22 +45,19 @@ public class ImageWatermark{
     protected void createImageWatermark(){
         try{
             getWatermarkImage();
-            Graphics2D g2d = (Graphics2D) sourceImage.getGraphics();
+            Graphics2D graphics2D = (Graphics2D) sourceImage.getGraphics();
             AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
-            g2d.setComposite(alphaChannel);
+            graphics2D.setComposite(alphaChannel);
 
             int topLeftX = (sourceImage.getWidth() - watermarkImage.getWidth()) / 2;
             int topLeftY = (sourceImage.getHeight() - watermarkImage.getHeight()) / 2;
 
-            g2d.drawImage(watermarkImage, topLeftX, topLeftY, null);
-            g2d.dispose();
+            graphics2D.drawImage(watermarkImage, topLeftX, topLeftY, null);
+            graphics2D.dispose();
+
+            this.imagePanel.setImage(sourceImage);
         }catch (Exception exception){
             com.company.DialogLibrary.showNoImageDialog();
         }
     }
-
-    public BufferedImage getImage() {
-        return sourceImage;
-    }
-
 }
