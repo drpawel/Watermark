@@ -26,6 +26,7 @@ public class GUI extends JFrame {
 
     private JPanel prepareSelectionPanel(){
         JPanel selectionPanel = new JPanel();
+        selectionPanel.setBorder(BorderFactory.createTitledBorder("Actions"));
 
         openButton = new JButton("Open a File");
         saveButton = new JButton("Save a File");
