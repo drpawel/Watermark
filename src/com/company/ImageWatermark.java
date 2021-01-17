@@ -12,18 +12,76 @@ public class ImageWatermark extends JFrame{
     private ImagePanel imagePanel;
     private BufferedImage sourceImage;
     private BufferedImage watermarkImage = null;
+    private JSlider opacitySlider, xSlider, ySlider;
 
 
     public ImageWatermark(ImagePanel imagePanel){
         this.imagePanel = imagePanel;
         this.sourceImage = imagePanel.getImage();
-        createImageWatermark();
+        getWatermarkImage();
+        if(imagePanel.getImage()!=null){
+            this.getContentPane().add(prepareMainPanel());
+            setFrame();
+        }else{
+            com.company.DialogLibrary.showNoImageDialog();
+        }
+
     }
 
     private JPanel prepareMainPanel(){
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setPreferredSize(new Dimension(500,400));
+        mainPanel.setPreferredSize(new Dimension(225,250));
+
+        mainPanel.add(prepareOptionsPanel(),BorderLayout.CENTER);
+        mainPanel.add(prepareSubmitButton(),BorderLayout.PAGE_END);
         return mainPanel;
+    }
+
+    private JPanel prepareOptionsPanel(){
+        JPanel optionsPanel = new JPanel();
+        Sliders sliders = new Sliders(sourceImage);
+        opacitySlider = sliders.getOpacitySlider();
+        xSlider = sliders.getXSlider();
+        ySlider = sliders.getYSlider();
+
+        optionsPanel.add(new JLabel("Width:"));
+        optionsPanel.add(xSlider);
+
+        optionsPanel.add(new JLabel("Height:"));
+        optionsPanel.add(ySlider);
+
+        optionsPanel.add(new JLabel("Opacity:"));
+        optionsPanel.add(opacitySlider);
+
+        return optionsPanel;
+    }
+
+    private JButton prepareSubmitButton(){
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(e -> {
+            createImageWatermark();
+            this.imagePanel.setImage(sourceImage);
+            this.dispose();
+        });
+        return submitButton;
+    }
+
+    protected void createImageWatermark(){
+        try{
+
+            Graphics2D graphics2D = (Graphics2D) sourceImage.getGraphics();
+            AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,(float) opacitySlider.getValue()/100);
+            graphics2D.setComposite(alphaChannel);
+
+            int topLeftX = (sourceImage.getWidth() - watermarkImage.getWidth()) / 2;
+            int topLeftY = (sourceImage.getHeight() - watermarkImage.getHeight()) / 2;
+
+            graphics2D.drawImage(watermarkImage, (xSlider.getValue()*2-watermarkImage.getHeight())/2,
+                    (ySlider.getValue()*2-watermarkImage.getWidth())/2, null);
+            graphics2D.dispose();
+        }catch (Exception exception){
+            com.company.DialogLibrary.showWatermarkProblem();
+        }
     }
 
     private void getWatermarkImage(){
@@ -42,22 +100,10 @@ public class ImageWatermark extends JFrame{
         }
     }
 
-    protected void createImageWatermark(){
-        try{
-            getWatermarkImage();
-            Graphics2D graphics2D = (Graphics2D) sourceImage.getGraphics();
-            AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f);
-            graphics2D.setComposite(alphaChannel);
-
-            int topLeftX = (sourceImage.getWidth() - watermarkImage.getWidth()) / 2;
-            int topLeftY = (sourceImage.getHeight() - watermarkImage.getHeight()) / 2;
-
-            graphics2D.drawImage(watermarkImage, topLeftX, topLeftY, null);
-            graphics2D.dispose();
-
-            this.imagePanel.setImage(sourceImage);
-        }catch (Exception exception){
-            com.company.DialogLibrary.showNoImageDialog();
-        }
+    private void setFrame(){
+        setTitle("Image Watermark");
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 }

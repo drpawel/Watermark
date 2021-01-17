@@ -8,10 +8,10 @@ import java.awt.image.BufferedImage;
 public class TextWatermark extends JFrame {
     private BufferedImage image;
     private ImagePanel imagePanel;
-    private JTextField textField = new JTextField(20);
-    private JColorChooser colorChooser = new JColorChooser();
-    private JSlider opacitySlider = new JSlider(JSlider.HORIZONTAL,0,100,30);
-    private JComboBox jComboBox = new JComboBox(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
+    private JSlider opacitySlider, xSlider, ySlider;
+    private final JTextField textField = new JTextField(20);
+    private final JColorChooser colorChooser = new JColorChooser();
+    private final JComboBox jComboBox = new JComboBox(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
 
     private Color color = Color.white;
     private String font = "Arial";
@@ -30,7 +30,7 @@ public class TextWatermark extends JFrame {
 
     private JPanel prepareMainPanel(){
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setPreferredSize(new Dimension(500,400));
+        mainPanel.setPreferredSize(new Dimension(500,410));
 
         colorChooser.setBorder(BorderFactory.createTitledBorder("Select color"));
         colorChooser.setPreviewPanel(new JPanel());
@@ -43,16 +43,26 @@ public class TextWatermark extends JFrame {
 
     private JPanel prepareOptionsPanel(){
         JPanel optionsPanel = new JPanel();
+        Sliders sliders = new Sliders(image);
+        opacitySlider = sliders.getOpacitySlider();
+        xSlider = sliders.getXSlider();
+        ySlider = sliders.getYSlider();
 
         optionsPanel.add(new JLabel("Opacity:"));
-        prepareOpacitySlider();
         optionsPanel.add(opacitySlider);
+
+        optionsPanel.add(new JLabel("Font:"));
+        optionsPanel.add(jComboBox);
+
+        optionsPanel.add(new JLabel("Width:"));
+        optionsPanel.add(xSlider);
+
+        optionsPanel.add(new JLabel("Height:"));
+        optionsPanel.add(ySlider);
 
         optionsPanel.add(new JLabel("Text:"));
         optionsPanel.add(textField);
 
-        optionsPanel.add(new JLabel("Font:"));
-        optionsPanel.add(jComboBox);
         return optionsPanel;
     }
 
@@ -84,23 +94,11 @@ public class TextWatermark extends JFrame {
             FontMetrics fontMetrics = graphics2D.getFontMetrics();
             Rectangle2D rectangle2D = fontMetrics.getStringBounds(text, graphics2D);
 
-
-            int centerX = (image.getWidth() - (int) rectangle2D.getWidth()) / 2;
-            int centerY = image.getHeight() / 2;
-
-            graphics2D.drawString(text, centerX, centerY);
+            graphics2D.drawString(text, (xSlider.getValue()*2- (int) rectangle2D.getWidth())/2, ySlider.getValue());
             graphics2D.dispose();
         }catch (Exception exception){
-            com.company.DialogLibrary.showNoImageDialog();
+            com.company.DialogLibrary.showWatermarkProblem();
         }
-    }
-
-    private void prepareOpacitySlider(){
-        opacitySlider.setPaintTrack(true);
-        opacitySlider.setPaintTicks(true);
-        opacitySlider.setPaintLabels(true);
-        opacitySlider.setMajorTickSpacing(50);
-        opacitySlider.setMinorTickSpacing(5);
     }
 
     private void setFrame(){
