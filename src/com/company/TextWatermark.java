@@ -5,6 +5,9 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * Text Watermark class
+ */
 public class TextWatermark extends JFrame {
     private BufferedImage image;
     private ImagePanel imagePanel;
@@ -17,6 +20,10 @@ public class TextWatermark extends JFrame {
     private String font = "Arial";
     private String text = "DEFAULT";
 
+    /**
+     * TextWatermark constructor
+     * @param imagePanel
+     */
     public TextWatermark(ImagePanel imagePanel){
         this.imagePanel = imagePanel;
         this.image = imagePanel.getImage();
@@ -28,6 +35,10 @@ public class TextWatermark extends JFrame {
         }
     }
 
+    /**
+     * creating MainPanel function
+     * @return MainPanel
+     */
     private JPanel prepareMainPanel(){
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setPreferredSize(new Dimension(500,410));
@@ -41,6 +52,10 @@ public class TextWatermark extends JFrame {
         return mainPanel;
     }
 
+    /**
+     * creating OptionPanel function
+     * @return OptionsPanel
+     */
     private JPanel prepareOptionsPanel(){
         JPanel optionsPanel = new JPanel();
         Sliders sliders = new Sliders(image);
@@ -66,6 +81,10 @@ public class TextWatermark extends JFrame {
         return optionsPanel;
     }
 
+    /**
+     * creating SubmitButton function
+     * @return SubmitButton
+     */
     private JButton prepareSubmitButton(){
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
@@ -82,6 +101,9 @@ public class TextWatermark extends JFrame {
         return submitButton;
     }
 
+    /**
+     * TextWatermark algorithm
+     */
     public void createTextWatermark(){
         try{
             Graphics2D graphics2D = (Graphics2D) image.getGraphics();
@@ -101,6 +123,9 @@ public class TextWatermark extends JFrame {
         }
     }
 
+    /**
+     * setting frame properties
+     */
     private void setFrame(){
         setTitle("Text Watermark");
         pack();

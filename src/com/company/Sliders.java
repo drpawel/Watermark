@@ -3,10 +3,17 @@ package com.company;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Class creating Sliders
+ */
 public class Sliders {
     private final JSlider opacitySlider = new JSlider(JSlider.HORIZONTAL,0,100,30);
     private JSlider xSlider, ySlider;
 
+    /**
+     * Class constructor - creating Sliders
+     * @param image
+     */
     public Sliders(BufferedImage image) {
         opacitySlider.setPaintTrack(true);
         opacitySlider.setPaintTicks(true);
@@ -29,14 +36,26 @@ public class Sliders {
         ySlider.setMinorTickSpacing(20);
     }
 
+    /**
+     * xSlider getter
+     * @return
+     */
     public JSlider getXSlider() {
         return xSlider;
     }
 
+    /**
+     * ySlider getter
+     * @return
+     */
     public JSlider getYSlider() {
         return ySlider;
     }
 
+    /**
+     * opacitySlider getter
+     * @return
+     */
     public JSlider getOpacitySlider() {
         return opacitySlider;
     }

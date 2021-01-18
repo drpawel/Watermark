@@ -6,15 +6,26 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
+/**
+ * Class creating imagePanel
+ */
 public class ImagePanel extends JPanel {
     private BufferedImage image = null;
     private int width = 300;
     private int height = 300;
 
+    /**
+     * image getter
+     * @return image
+     */
     public BufferedImage getImage() {
         return image;
     }
 
+    /**
+     * image setter
+     * @param image
+     */
     public void setImage(BufferedImage image) {
         Insets insets=null;
         int     width=-1,height=-1;
@@ -34,6 +45,10 @@ public class ImagePanel extends JPanel {
         this.repaint();
     }
 
+    /**
+     * painting on panel function
+     * @param g
+     */
     @Override
     public synchronized void paintComponent(Graphics g)
     {

@@ -8,13 +8,19 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Image Watermark class
+ */
 public class ImageWatermark extends JFrame{
     private ImagePanel imagePanel;
     private BufferedImage sourceImage;
     private BufferedImage watermarkImage = null;
     private JSlider opacitySlider, xSlider, ySlider;
 
-
+    /**
+     * ImageWatermark constructor
+     * @param imagePanel
+     */
     public ImageWatermark(ImagePanel imagePanel){
         this.imagePanel = imagePanel;
         this.sourceImage = imagePanel.getImage();
@@ -28,6 +34,10 @@ public class ImageWatermark extends JFrame{
 
     }
 
+    /**
+     * creating MainPanel function
+     * @return MainPanel
+     */
     private JPanel prepareMainPanel(){
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setPreferredSize(new Dimension(225,250));
@@ -37,6 +47,10 @@ public class ImageWatermark extends JFrame{
         return mainPanel;
     }
 
+    /**
+     * creating OptionPanel function
+     * @return OptionsPanel
+     */
     private JPanel prepareOptionsPanel(){
         JPanel optionsPanel = new JPanel();
         Sliders sliders = new Sliders(sourceImage);
@@ -56,6 +70,10 @@ public class ImageWatermark extends JFrame{
         return optionsPanel;
     }
 
+    /**
+     * creating SubmitButton function
+     * @return SubmitButton
+     */
     private JButton prepareSubmitButton(){
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
@@ -66,6 +84,9 @@ public class ImageWatermark extends JFrame{
         return submitButton;
     }
 
+    /**
+     * ImageWatermark algorithm
+     */
     protected void createImageWatermark(){
         try{
 
@@ -84,6 +105,9 @@ public class ImageWatermark extends JFrame{
         }
     }
 
+    /**
+     * opening WatermarkImage from file function
+     */
     private void getWatermarkImage(){
         JFileChooser fileChooser = new JFileChooser(".\\resources");
         fileChooser.setAcceptAllFileFilterUsed(false);
@@ -100,6 +124,9 @@ public class ImageWatermark extends JFrame{
         }
     }
 
+    /**
+     * setting frame properties
+     */
     private void setFrame(){
         setTitle("Image Watermark");
         pack();

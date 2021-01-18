@@ -10,16 +10,27 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * App controller
+ */
 public class AppController implements ActionListener {
     private final GUI gui;
     private ImagePanel imagePanel;
     private int counter = 0;
 
+    /**
+     * App controller constructor
+     * @param gui
+     */
     public AppController(GUI gui) {
         this.gui = gui;
         this.imagePanel = this.gui.getImagePanel();
     }
 
+    /**
+     * function with actionListeners
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
@@ -38,6 +49,9 @@ public class AppController implements ActionListener {
         }
     }
 
+    /**
+     * opening file function
+     */
     private void openFile(){
         JFileChooser fileChooser = new JFileChooser(".\\resources");
         fileChooser.setAcceptAllFileFilterUsed(false);
@@ -54,6 +68,9 @@ public class AppController implements ActionListener {
         }
     }
 
+    /**
+     * saving file function
+     */
     private void saveFile(){
         try {
             ImageIO.write(this.imagePanel.getImage(), "png", new File(".\\resources\\Watermark_" + counter++
@@ -63,10 +80,18 @@ public class AppController implements ActionListener {
         }
     }
 
+    /**
+     * adding TextWatermark
+     * @param panel
+     */
     private void addTextWatermark(ImagePanel panel){
         new TextWatermark(panel);
     }
 
+    /**
+     * adding ImageWatermark
+     * @param panel
+     */
     private void addImageWatermark(ImagePanel panel){
         new ImageWatermark(panel);
     }
