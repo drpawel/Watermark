@@ -94,9 +94,6 @@ public class ImageWatermark extends JFrame{
             AlphaComposite alphaChannel = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,(float) opacitySlider.getValue()/100);
             graphics2D.setComposite(alphaChannel);
 
-            int topLeftX = (sourceImage.getWidth() - watermarkImage.getWidth()) / 2;
-            int topLeftY = (sourceImage.getHeight() - watermarkImage.getHeight()) / 2;
-
             graphics2D.drawImage(watermarkImage, (xSlider.getValue()*2-watermarkImage.getHeight())/2,
                     (ySlider.getValue()*2-watermarkImage.getWidth())/2, null);
             graphics2D.dispose();
